@@ -14,10 +14,10 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
       - name: Deploy Landing to www subdomain
-        run: aws s3 sync ./ s3://${{ secrets.AWS_S3_BUCKET }} --delete
+        run: aws s3 sync ./index.html && aws s3 sync ./spillz.png s3://${{ secrets.AWS_S3_BUCKET }} --delete
       - name: Update Cache Control for index.html
         run: aws s3 cp s3://${{ secrets.AWS_S3_BUCKET }}/index.html s3://${{ secrets.AWS_S3_BUCKET }}/index.html --metadata-directive REPLACE --cache-control no-cache
       - name: Deploy Landing to domain
-        run: aws s3 sync ./ s3://spillzit.com --delete
+        run: aws s3 sync ./index.html && aws s3 sync ./spillz.png s3://spillzit.com --delete
       - name: Update Cache Control for index.html
         run: aws s3 cp s3://spillzit.com/index.html s3://spillzit.com/index.html --metadata-directive REPLACE --cache-control no-cache
